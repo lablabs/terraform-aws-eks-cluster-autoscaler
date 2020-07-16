@@ -38,7 +38,7 @@ module "eks_workers" {
 
 # Use the module:
 
-module "node_problem_detector" {
+module "cluster_autoscaler" {
   source = "../../"
 
   cluster_name                     = module.eks_cluster.eks_cluster_id
