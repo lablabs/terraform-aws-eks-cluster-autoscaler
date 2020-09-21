@@ -18,9 +18,9 @@ A terraform module to deploy the Cluster Autoscaler on Amazon EKS cluster.
 
 | Name | Version |
 |------|---------|
-| terraform | ~> 0.12.0 |
-| aws | ~> 2.0 |
-| helm | ~> 1.2 |
+| terraform | >= 0.12.26, < 0.14.0 |
+| aws | >= 2.0, < 4.0 |
+| helm | >= 1.2, < 1.4.0 |
 
 ## Inputs
 
