@@ -9,7 +9,9 @@ module "vpc" {
 }
 
 module "eks_cluster" {
-  source     = "lablabs/eks-cluster/aws"
+  source  = "cloudposse/eks-cluster/aws"
+  version = "0.28.0"
+
   region     = "eu-central-1"
   subnet_ids = module.vpc.public_subnets
   vpc_id     = module.vpc.vpc_id
@@ -20,8 +22,8 @@ module "eks_cluster" {
 }
 
 module "eks_workers" {
-  source  = "lablabs/eks-workers/aws"
-  version = "0.11.0"
+  source  = "cloudposse/eks-workers/aws"
+  version = "0.15.2"
 
   cluster_certificate_authority_data = module.eks_cluster.eks_cluster_certificate_authority_data
   cluster_endpoint                   = module.eks_cluster.eks_cluster_endpoint
