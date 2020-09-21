@@ -13,6 +13,22 @@ We help companies build, run, deploy and scale software and infrastructure by em
 
 A terraform module to deploy the Cluster Autoscaler on Amazon EKS cluster.
 
+## Related Projects
+
+Check out these related projects.
+
+- [terraform-aws-eks-external-dns](https://github.com/lablabs/terraform-aws-eks-external-dns)
+- [terraform-aws-eks-calico](https://github.com/lablabs/terraform-aws-eks-calico)
+- [terraform-aws-eks-alb-ingress](https://github.com/lablabs/terraform-aws-eks-alb-ingress)
+- [terraform-aws-eks-metrics-server](https://github.com/lablabs/terraform-aws-eks-metrics-server)
+- [terraform-aws-eks-prometheus-node-exporter](https://github.com/lablabs/terraform-aws-eks-prometheus-node-exporter)
+- [terraform-aws-eks-kube-state-metrics](https://github.com/lablabs/terraform-aws-eks-kube-state-metrics)
+- [terraform-aws-eks-node-problem-detector](https://github.com/lablabs/terraform-aws-eks-node-problem-detector)
+
+
+## Examples
+
+See [Basic example](examples/basic/README.md) for further information.
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
