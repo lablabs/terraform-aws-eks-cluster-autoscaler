@@ -13,14 +13,31 @@ We help companies build, run, deploy and scale software and infrastructure by em
 
 A terraform module to deploy the Cluster Autoscaler on Amazon EKS cluster.
 
+## Related Projects
+
+Check out these related projects.
+
+- [terraform-aws-eks-external-dns](https://github.com/lablabs/terraform-aws-eks-external-dns)
+- [terraform-aws-eks-calico](https://github.com/lablabs/terraform-aws-eks-calico)
+- [terraform-aws-eks-alb-ingress](https://github.com/lablabs/terraform-aws-eks-alb-ingress)
+- [terraform-aws-eks-metrics-server](https://github.com/lablabs/terraform-aws-eks-metrics-server)
+- [terraform-aws-eks-prometheus-node-exporter](https://github.com/lablabs/terraform-aws-eks-prometheus-node-exporter)
+- [terraform-aws-eks-kube-state-metrics](https://github.com/lablabs/terraform-aws-eks-kube-state-metrics)
+- [terraform-aws-eks-node-problem-detector](https://github.com/lablabs/terraform-aws-eks-node-problem-detector)
+
+
+## Examples
+
+See [Basic example](examples/basic/README.md) for further information.
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
-| terraform | ~> 0.12.0 |
-| aws | ~> 2.0 |
-| helm | ~> 1.2 |
+| terraform | >= 0.12.26, < 0.14.0 |
+| aws | >= 2.0, < 4.0 |
+| helm | >= 1.0, < 1.4.0 |
+| kubernetes | >=1.10.0 |
 
 ## Inputs
 
@@ -30,10 +47,10 @@ A terraform module to deploy the Cluster Autoscaler on Amazon EKS cluster.
 | cluster\_identity\_oidc\_issuer\_arn | The OIDC Identity issuer ARN for the cluster that can be used to associate IAM roles with a service account | `string` | n/a | yes |
 | cluster\_name | The name of the cluster | `string` | n/a | yes |
 | enabled | Variable indicating whether deployment is enabled | `bool` | `true` | no |
-| helm\_chart\_name | Helm chart name to be installed | `string` | `"cluster-autoscaler"` | no |
-| helm\_chart\_version | Version of the Helm chart | `string` | `"7.3.4"` | no |
+| helm\_chart\_name | Helm chart name to be installed | `string` | `"cluster-autoscaler-chart"` | no |
+| helm\_chart\_version | Version of the Helm chart | `string` | `"1.0.3"` | no |
 | helm\_release\_name | Helm release name | `string` | `"cluster-autoscaler"` | no |
-| helm\_repo\_url | Helm repository | `string` | `"https://kubernetes-charts.storage.googleapis.com"` | no |
+| helm\_repo\_url | Helm repository | `string` | `"https://kubernetes.github.io/autoscaler"` | no |
 | k8s\_namespace | The K8s namespace in which the node-problem-detector service account has been created | `string` | `"cluster-autoscaler"` | no |
 | k8s\_service\_account\_name | The k8s cluster-autoscaler service account name | `string` | `"cluster-autoscaler"` | no |
 | mod\_dependency | Dependence variable binds all AWS resources allocated by this module, dependent modules reference this variable | `bool` | `null` | no |

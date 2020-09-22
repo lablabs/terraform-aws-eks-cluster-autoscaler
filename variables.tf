@@ -27,13 +27,13 @@ variable "enabled" {
 
 variable "helm_chart_name" {
   type        = string
-  default     = "cluster-autoscaler"
+  default     = "cluster-autoscaler-chart"
   description = "Helm chart name to be installed"
 }
 
 variable "helm_chart_version" {
   type        = string
-  default     = "7.3.4"
+  default     = "1.0.3"
   description = "Version of the Helm chart"
 }
 
@@ -45,7 +45,7 @@ variable "helm_release_name" {
 
 variable "helm_repo_url" {
   type        = string
-  default     = "https://kubernetes-charts.storage.googleapis.com"
+  default     = "https://kubernetes.github.io/autoscaler"
   description = "Helm repository"
 }
 

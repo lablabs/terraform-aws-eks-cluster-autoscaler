@@ -7,9 +7,9 @@ The code in this example shows how to use the module with basic configuration an
 
 | Name | Version |
 |------|---------|
-| aws | ~> 2.0 |
-| helm | ~> 1.0 |
-| kubernetes | ~> 1.10 |
+| aws | >= 2.0, < 4.0 |
+| helm | >= 1.0, < 1.4.0 |
+| kubernetes | >=1.10.0 |
 
 ## Inputs
 
