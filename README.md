@@ -34,10 +34,26 @@ See [Basic example](examples/basic/README.md) for further information.
 
 | Name | Version |
 |------|---------|
-| terraform | >= 0.12.26, < 0.14.0 |
-| aws | >= 2.0, < 4.0 |
-| helm | >= 1.0, < 1.4.0 |
-| kubernetes | >=1.10.0 |
+| terraform | >= 0.13 |
+| aws | >= 2.0 |
+| helm | >= 1.0 |
+| kubernetes | >= 1.10 |
+
+## Modules
+
+No Modules.
+
+## Resources
+
+| Name |
+|------|
+| [aws_iam_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) |
+| [aws_iam_policy_document](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) |
+| [aws_iam_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) |
+| [aws_iam_role_policy_attachment](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) |
+| [aws_region](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) |
+| [helm_release](https://registry.terraform.io/providers/hashicorp/helm/latest/docs/resources/release) |
+| [kubernetes_namespace](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/namespace) |
 
 ## Inputs
 
@@ -47,8 +63,8 @@ See [Basic example](examples/basic/README.md) for further information.
 | cluster\_identity\_oidc\_issuer\_arn | The OIDC Identity issuer ARN for the cluster that can be used to associate IAM roles with a service account | `string` | n/a | yes |
 | cluster\_name | The name of the cluster | `string` | n/a | yes |
 | enabled | Variable indicating whether deployment is enabled | `bool` | `true` | no |
-| helm\_chart\_name | Helm chart name to be installed | `string` | `"cluster-autoscaler-chart"` | no |
-| helm\_chart\_version | Version of the Helm chart | `string` | `"1.0.3"` | no |
+| helm\_chart\_name | Helm chart name to be installed | `string` | `"cluster-autoscaler"` | no |
+| helm\_chart\_version | Version of the Helm chart | `string` | `"9.7.0"` | no |
 | helm\_release\_name | Helm release name | `string` | `"cluster-autoscaler"` | no |
 | helm\_repo\_url | Helm repository | `string` | `"https://kubernetes.github.io/autoscaler"` | no |
 | k8s\_namespace | The K8s namespace in which the node-problem-detector service account has been created | `string` | `"cluster-autoscaler"` | no |
@@ -59,7 +75,6 @@ See [Basic example](examples/basic/README.md) for further information.
 ## Outputs
 
 No output.
-
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 ## Contributing and reporting issues
