@@ -27,13 +27,13 @@ variable "enabled" {
 
 variable "helm_chart_name" {
   type        = string
-  default     = "cluster-autoscaler-chart"
+  default     = "cluster-autoscaler"
   description = "Helm chart name to be installed"
 }
 
 variable "helm_chart_version" {
   type        = string
-  default     = "1.0.3"
+  default     = "9.7.0"
   description = "Version of the Helm chart"
 }
 

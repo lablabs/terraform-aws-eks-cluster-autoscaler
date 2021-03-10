@@ -63,8 +63,8 @@ No Modules.
 | cluster\_identity\_oidc\_issuer\_arn | The OIDC Identity issuer ARN for the cluster that can be used to associate IAM roles with a service account | `string` | n/a | yes |
 | cluster\_name | The name of the cluster | `string` | n/a | yes |
 | enabled | Variable indicating whether deployment is enabled | `bool` | `true` | no |
-| helm\_chart\_name | Helm chart name to be installed | `string` | `"cluster-autoscaler-chart"` | no |
-| helm\_chart\_version | Version of the Helm chart | `string` | `"1.0.3"` | no |
+| helm\_chart\_name | Helm chart name to be installed | `string` | `"cluster-autoscaler"` | no |
+| helm\_chart\_version | Version of the Helm chart | `string` | `"9.7.0"` | no |
 | helm\_release\_name | Helm release name | `string` | `"cluster-autoscaler"` | no |
 | helm\_repo\_url | Helm repository | `string` | `"https://kubernetes.github.io/autoscaler"` | no |
 | k8s\_namespace | The K8s namespace in which the node-problem-detector service account has been created | `string` | `"cluster-autoscaler"` | no |
