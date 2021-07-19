@@ -70,6 +70,6 @@ variable "mod_dependency" {
 
 variable "values" {
   type        = string
-  default     = {}
-  description = "Additional values which will be passed to the Helm chart, see https://hub.helm.sh/charts/stable/cluster-autoscaler"
+  default     = ""
+  description = "Additional yaml encoded values which will be passed to the Helm chart, see https://hub.helm.sh/charts/stable/cluster-autoscaler"
 }
