@@ -68,8 +68,8 @@ variable "mod_dependency" {
   description = "Dependence variable binds all AWS resources allocated by this module, dependent modules reference this variable"
 }
 
-variable "settings" {
-  type        = map(any)
+variable "values" {
+  type        = string
   default     = {}
-  description = "Additional settings which will be passed to the Helm chart values, see https://hub.helm.sh/charts/stable/cluster-autoscaler"
+  description = "Additional values which will be passed to the Helm chart, see https://hub.helm.sh/charts/stable/cluster-autoscaler"
 }
