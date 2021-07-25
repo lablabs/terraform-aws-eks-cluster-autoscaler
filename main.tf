@@ -21,11 +21,10 @@ resource "helm_release" "cluster_autoscaler" {
         "serviceAccount" : {
           "create" : true,
           "name" : var.k8s_service_account_name
-        },
-        "serviceAccountAnnotations" : {
-          "eks.amazonaws.com/role-arn": aws_iam_role.cluster_autoscaler[0].arn
-        },
-        "zz": {}
+          "annotations": {
+            "eks.amazonaws.com/role-arn": aws_iam_role.cluster_autoscaler[0].arn
+          }
+        }
       }
     }),
     var.values]
