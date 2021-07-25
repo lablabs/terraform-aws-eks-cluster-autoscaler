@@ -17,11 +17,13 @@ resource "helm_release" "cluster_autoscaler" {
         "clusterName" : var.cluster_name
       },
       "rbac" : {
-        "serviceAccountAnnotations" : { },
         "create" : true,
         "serviceAccount" : {
           "create" : true,
           "name" : var.k8s_service_account_name
+        },
+        "serviceAccountAnnotations" : {
+          "eks.amazonaws.com/role-arn": aws_iam_role.cluster_autoscaler[0].arn
         },
         "zz": {}
       }
