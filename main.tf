@@ -11,18 +11,18 @@ resource "helm_release" "cluster_autoscaler" {
   repository = var.helm_repo_url
 
   values = [
-    yamlencode({
-      "awsRegion" = data.aws_region.current.name
-      "autoDiscovery" = {
-        "clusterName" = var.cluster_name
+    jsonencode({
+      "awsRegion" : data.aws_region.current.name
+      "autoDiscovery" : {
+        "clusterName" : var.cluster_name
       }
-      "rbac" = {
-        "create" = true
-        "serviceAccount" = {
-          "create" = true
-          "name" = var.k8s_service_account_name
+      "rbac" : {
+        "create" : true
+        "serviceAccount" : {
+          "create" : true
+          "name" : var.k8s_service_account_name
         }
-        "serviceAccountAnnotations" = {
+        "serviceAccountAnnotations" : {
           "kasdvjafsjkd" : "kjasdjkdhsaf"
         }
       }
