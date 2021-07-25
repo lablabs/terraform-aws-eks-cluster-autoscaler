@@ -21,6 +21,9 @@ resource "helm_release" "cluster_autoscaler" {
         "serviceAccount" = {
           "create" = true
           "name" = var.k8s_service_account_name
+          "annotations" = {
+            "eks\\.amazonaws\\.com/role-arn" = var.k8s_service_account_name
+          }
         }
       }
     }),
