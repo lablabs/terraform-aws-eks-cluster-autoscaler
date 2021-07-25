@@ -12,20 +12,19 @@ resource "helm_release" "cluster_autoscaler" {
 
   values = [
     yamlencode({
-      "awsRegion": data.aws_region.current.name,
-      "autoDiscovery": {
-        "clusterName": var.cluster_name
+      "awsRegion"= data.aws_region.current.name,
+      "autoDiscovery"= {
+        "clusterName"= var.cluster_name
       },
-      "rbac": {
-        "create": true,
-        "serviceAccount": {
-          "create": true,
-          "name": var.k8s_service_account_name,
-          "annotations" : {
-
-            "eks": {
-              "amazonaws": {
-                "com/role-arn": var.k8s_service_account_name
+      "rbac"= {
+        "create"= true,
+        "serviceAccount"= {
+          "create"= true,
+          "name"= var.k8s_service_account_name,
+          "annotations" = {
+            "eks"= {
+              "amazonaws"= {
+                "com/role-arn"= var.k8s_service_account_name
               }
             }
           }
