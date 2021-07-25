@@ -65,15 +65,6 @@ data "aws_iam_policy_document" "cluster_autoscaler_assume" {
       ]
     }
 
-    condition {
-      test     = "StringEquals"
-      variable = "${replace(var.cluster_identity_oidc_issuer, "https://", "")}:aud"
-
-      values = [
-        "sts.amazonaws.com",
-      ]
-    }
-
     effect = "Allow"
   }
 }
