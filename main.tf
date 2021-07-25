@@ -23,7 +23,7 @@ resource "helm_release" "cluster_autoscaler" {
           "name" = var.k8s_service_account_name
         }
         "serviceAccountAnnotations" = {
-          "kasdvjafsjkd" = "kjasdjkdhsaf"
+          "kasdvjafsjkd" : "kjasdjkdhsaf"
         }
       }
     }),
