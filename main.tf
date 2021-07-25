@@ -23,9 +23,7 @@ resource "helm_release" "cluster_autoscaler" {
           "name" = var.k8s_service_account_name
         }
         "serviceAccountAnnotations" = {
-          "eks" = {
-            "amazonaws.com/role-arn" = aws_iam_role.cluster_autoscaler[0].arn
-          }
+          "eks.amazonaws.com/role-arn" = aws_iam_role.cluster_autoscaler[0].arn
         }
       }
     }),
