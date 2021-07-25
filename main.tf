@@ -22,7 +22,8 @@ resource "helm_release" "cluster_autoscaler" {
         "serviceAccount" : {
           "create" : true,
           "name" : var.k8s_service_account_name
-        }
+        },
+        "zz": {}
       }
     }),
     var.values]
