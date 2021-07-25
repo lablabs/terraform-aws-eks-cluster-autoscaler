@@ -22,14 +22,12 @@ resource "helm_release" "cluster_autoscaler" {
           "create" = true
           "name" = var.k8s_service_account_name
         }
+        "serviceAccountAnnotations" = {
+          "eks\\.amazonaws\\.com/role-arn" = aws_iam_role.cluster_autoscaler[0].arn
+        }
       }
     }),
     var.values]
-
-  set {
-    name  = "rbac.serviceAccountAnnotations.eks\\.amazonaws\\.com/role-arn"
-    value = aws_iam_role.cluster_autoscaler[0].arn
-  }
 
   dynamic "set" {
     for_each = var.settings
