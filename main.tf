@@ -12,18 +12,17 @@ resource "helm_release" "cluster_autoscaler" {
 
   values = [
     jsonencode({
-      "awsRegion" : data.aws_region.current.name
+      "awsRegion" : data.aws_region.current.name,
       "autoDiscovery" : {
         "clusterName" : var.cluster_name
-      }
+      },
       "rbac" : {
-        "create" : true
+        "create" : true,
         "serviceAccount" : {
-          "create" : true
+          "create" : true,
           "name" : var.k8s_service_account_name
-        }
-        "serviceAccountAnnotations" : {
-        }
+        },
+        "serviceAccountAnnotations" : { }
       }
     }),
     var.values]
