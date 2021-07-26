@@ -2,12 +2,12 @@ data "aws_region" "current" {}
 
 resource "helm_release" "cluster_autoscaler" {
   depends_on = [
-    var.mod_dependency]
-  count = var.enabled ? 1 : 0
-  chart = var.helm_chart_name
-  namespace = var.k8s_namespace
-  name = var.helm_release_name
-  version = var.helm_chart_version
+  var.mod_dependency]
+  count      = var.enabled ? 1 : 0
+  chart      = var.helm_chart_name
+  namespace  = var.k8s_namespace
+  name       = var.helm_release_name
+  version    = var.helm_chart_version
   repository = var.helm_repo_url
 
   values = [
@@ -21,18 +21,18 @@ resource "helm_release" "cluster_autoscaler" {
         "serviceAccount" : {
           "create" : true,
           "name" : var.k8s_service_account_name
-          "annotations": {
-            "eks.amazonaws.com/role-arn": aws_iam_role.cluster_autoscaler[0].arn
+          "annotations" : {
+            "eks.amazonaws.com/role-arn" : aws_iam_role.cluster_autoscaler[0].arn
           }
         }
       }
     }),
-    var.values]
+  var.values]
 
   dynamic "set" {
     for_each = var.settings
     content {
-      name = set.key
+      name  = set.key
       value = set.value
     }
   }
