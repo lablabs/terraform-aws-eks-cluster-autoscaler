@@ -9,14 +9,24 @@ resource "helm_release" "cluster_autoscaler" {
   version    = var.helm_chart_version
   repository = var.helm_repo_url
 
-  values     = [yamlencode({
-    "awsRegion"                                                  : data.aws_region.current.name
-    "autoDiscovery.clusterName"                                  : var.cluster_name
-    "rbac.create"                                                : true
-    "rbac.serviceAccount.create"                                 : true
-    "rbac.serviceAccount.name"                                   : var.k8s_service_account_name
-    "rbac.serviceAccount.annotations.eks.amazonaws.com/role-arn" : var.k8s_service_account_name
-  }), var.values]
+  values = [
+    yamlencode({
+      "awsRegion" : data.aws_region.current.name,
+      "autoDiscovery" : {
+        "clusterName" : var.cluster_name
+      },
+      "rbac" : {
+        "create" : true,
+        "serviceAccount" : {
+          "create" : true,
+          "name" : var.k8s_service_account_name
+          "annotations" : {
+            "eks.amazonaws.com/role-arn" : aws_iam_role.cluster_autoscaler[0].arn
+          }
+        }
+      }
+    }),
+  var.values]
 
   dynamic "set" {
     for_each = var.settings
