@@ -11,7 +11,7 @@ resource "helm_release" "cluster_autoscaler" {
   repository = var.helm_repo_url
 
   values = [
-    jsonencode({
+    yamlencode({
       "awsRegion" : data.aws_region.current.name,
       "autoDiscovery" : {
         "clusterName" : var.cluster_name
