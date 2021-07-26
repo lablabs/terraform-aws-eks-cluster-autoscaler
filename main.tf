@@ -1,8 +1,7 @@
 data "aws_region" "current" {}
 
 resource "helm_release" "cluster_autoscaler" {
-  depends_on = [
-  var.mod_dependency]
+  depends_on = [var.mod_dependency]
   count      = var.enabled ? 1 : 0
   chart      = var.helm_chart_name
   namespace  = var.k8s_namespace
