@@ -26,7 +26,6 @@ module "eks_workers" {
   cluster_certificate_authority_data = module.eks_cluster.eks_cluster_certificate_authority_data
   cluster_endpoint                   = module.eks_cluster.eks_cluster_endpoint
   cluster_name                       = "cluster-autoscaler"
-#  cluster_security_group_id          = module.eks_cluster.security_group_id
   instance_type                      = "t3.medium"
   max_size                           = 1
   min_size                           = 1
