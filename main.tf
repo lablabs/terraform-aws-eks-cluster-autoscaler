@@ -10,7 +10,7 @@ locals {
           "create" : true,
           "name" : var.k8s_service_account_name
           "annotations" : {
-            "eks.amazonaws.com/role-arn" : aws_iam_role.cluster_autoscaler[0].arn
+            "eks.amazonaws.com/role-arn" : var.enabled ? aws_iam_role.cluster_autoscaler[0].arn : ""
           }
         }
       }
