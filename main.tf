@@ -1,27 +1,27 @@
 locals {
   values = yamlencode({
-      "awsRegion" : data.aws_region.current.name,
-      "autoDiscovery" : {
-        "clusterName" : var.cluster_name
-      },
-      "rbac" : {
+    "awsRegion" : data.aws_region.current.name,
+    "autoDiscovery" : {
+      "clusterName" : var.cluster_name
+    },
+    "rbac" : {
+      "create" : true,
+      "serviceAccount" : {
         "create" : true,
-        "serviceAccount" : {
-          "create" : true,
-          "name" : var.k8s_service_account_name
-          "annotations" : {
-            "eks.amazonaws.com/role-arn" : var.enabled ? aws_iam_role.cluster_autoscaler[0].arn : ""
-          }
+        "name" : var.k8s_service_account_name
+        "annotations" : {
+          "eks.amazonaws.com/role-arn" : var.enabled ? aws_iam_role.cluster_autoscaler[0].arn : ""
         }
       }
-    })
+    }
+  })
 }
 
 data "aws_region" "current" {}
 
 data "utils_deep_merge_yaml" "values" {
-  count      = var.enabled ? 1 : 0
-  input      = compact([
+  count = var.enabled ? 1 : 0
+  input = compact([
     local.values,
     var.values
   ])

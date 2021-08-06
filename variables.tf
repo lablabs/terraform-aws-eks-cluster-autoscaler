@@ -1,4 +1,8 @@
-# Required module inputs
+variable "enabled" {
+  type        = bool
+  default     = true
+  description = "Variable indicating whether deployment is enabled"
+}
 
 variable "cluster_name" {
   type        = string
@@ -14,16 +18,6 @@ variable "cluster_identity_oidc_issuer_arn" {
   type        = string
   description = "The OIDC Identity issuer ARN for the cluster that can be used to associate IAM roles with a service account"
 }
-
-# cluster-autoscaler
-
-variable "enabled" {
-  type        = bool
-  default     = true
-  description = "Variable indicating whether deployment is enabled"
-}
-
-# Helm
 
 variable "helm_chart_name" {
   type        = string

@@ -37,7 +37,7 @@ See [Basic example](examples/basic/README.md) for further information.
 | terraform | >= 0.13 |
 | aws | >= 2.0 |
 | helm | >= 1.0 |
-| kubernetes | >= 1.10 |
+| utils | >= 0.12.0 |
 
 ## Modules
 
@@ -53,7 +53,7 @@ No Modules.
 | [aws_iam_role_policy_attachment](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) |
 | [aws_region](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) |
 | [helm_release](https://registry.terraform.io/providers/hashicorp/helm/latest/docs/resources/release) |
-| [kubernetes_namespace](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/namespace) |
+| [utils_deep_merge_yaml](https://registry.terraform.io/providers/cloudposse/utils/latest/docs/data-sources/deep_merge_yaml) |
 
 ## Inputs
 
@@ -64,12 +64,12 @@ No Modules.
 | cluster\_name | The name of the cluster | `string` | n/a | yes |
 | enabled | Variable indicating whether deployment is enabled | `bool` | `true` | no |
 | helm\_chart\_name | Helm chart name to be installed | `string` | `"cluster-autoscaler"` | no |
-| helm\_chart\_version | Version of the Helm chart | `string` | `"9.7.0"` | no |
+| helm\_chart\_version | Version of the Helm chart | `string` | `"9.10.3"` | no |
+| helm\_create\_namespace | Create the namespace if it does not yet exist | `bool` | `true` | no |
 | helm\_release\_name | Helm release name | `string` | `"cluster-autoscaler"` | no |
 | helm\_repo\_url | Helm repository | `string` | `"https://kubernetes.github.io/autoscaler"` | no |
 | k8s\_namespace | The K8s namespace in which the node-problem-detector service account has been created | `string` | `"cluster-autoscaler"` | no |
 | k8s\_service\_account\_name | The k8s cluster-autoscaler service account name | `string` | `"cluster-autoscaler"` | no |
-| mod\_dependency | Dependence variable binds all AWS resources allocated by this module, dependent modules reference this variable | `bool` | `null` | no |
 | settings | Additional settings which will be passed to the Helm chart values, see https://hub.helm.sh/charts/stable/cluster-autoscaler | `map(any)` | `{}` | no |
 | values | Additional yaml encoded values which will be passed to the Helm chart, see https://hub.helm.sh/charts/stable/cluster-autoscaler | `string` | `""` | no |
 

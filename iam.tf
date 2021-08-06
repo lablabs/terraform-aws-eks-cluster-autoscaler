@@ -32,7 +32,6 @@ resource "aws_iam_policy" "cluster_autoscaler" {
   policy = data.aws_iam_policy_document.cluster_autoscaler[0].json
 }
 
-# Role
 data "aws_iam_policy_document" "cluster_autoscaler_assume" {
   count = var.enabled ? 1 : 0
 
