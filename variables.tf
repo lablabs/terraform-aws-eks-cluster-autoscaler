@@ -65,12 +65,6 @@ variable "k8s_service_account_name" {
   description = "The k8s cluster-autoscaler service account name"
 }
 
-variable "mod_dependency" {
-  type        = bool
-  default     = null
-  description = "Dependence variable binds all AWS resources allocated by this module, dependent modules reference this variable"
-}
-
 variable "settings" {
   type        = map(any)
   default     = {}
