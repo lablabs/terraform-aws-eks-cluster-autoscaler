@@ -42,14 +42,17 @@ variable "helm_release_name" {
   default     = "cluster-autoscaler"
   description = "Helm release name"
 }
-
 variable "helm_repo_url" {
   type        = string
   default     = "https://kubernetes.github.io/autoscaler"
   description = "Helm repository"
 }
 
-# K8s
+variable "helm_create_namespace" {
+  type        = bool
+  default     = true
+  description = "Create the namespace if it does not yet exist"
+}
 
 variable "k8s_namespace" {
   type        = string
