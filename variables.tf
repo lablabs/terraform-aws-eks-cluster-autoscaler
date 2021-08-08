@@ -54,6 +54,19 @@ variable "k8s_namespace" {
   description = "The K8s namespace in which the node-problem-detector service account has been created"
 }
 
+variable "k8s_rbac_create" {
+  type        = bool
+  default     = true
+  description = "Whether to create and use RBAC resources"
+}
+
+variable "k8s_service_account_create" {
+  type        = bool
+  default     = true
+  description = "Whether to create Service Account"
+}
+
+
 variable "k8s_service_account_name" {
   default     = "cluster-autoscaler"
   description = "The k8s cluster-autoscaler service account name"

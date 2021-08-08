@@ -5,9 +5,9 @@ locals {
       "clusterName" : var.cluster_name
     },
     "rbac" : {
-      "create" : true,
+      "create" : var.k8s_rbac_create,
       "serviceAccount" : {
-        "create" : true,
+        "create" : var.k8s_service_account_create,
         "name" : var.k8s_service_account_name
         "annotations" : {
           "eks.amazonaws.com/role-arn" : var.enabled ? aws_iam_role.cluster_autoscaler[0].arn : ""

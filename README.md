@@ -69,6 +69,8 @@ No Modules.
 | helm\_release\_name | Helm release name | `string` | `"cluster-autoscaler"` | no |
 | helm\_repo\_url | Helm repository | `string` | `"https://kubernetes.github.io/autoscaler"` | no |
 | k8s\_namespace | The K8s namespace in which the node-problem-detector service account has been created | `string` | `"cluster-autoscaler"` | no |
+| k8s\_rbac\_create | Whether to create and use RBAC resources | `bool` | `true` | no |
+| k8s\_service\_account\_create | Whether to create Service Account | `bool` | `true` | no |
 | k8s\_service\_account\_name | The k8s cluster-autoscaler service account name | `string` | `"cluster-autoscaler"` | no |
 | settings | Additional settings which will be passed to the Helm chart values, see https://hub.helm.sh/charts/stable/cluster-autoscaler | `map(any)` | `{}` | no |
 | values | Additional yaml encoded values which will be passed to the Helm chart, see https://hub.helm.sh/charts/stable/cluster-autoscaler | `string` | `""` | no |
