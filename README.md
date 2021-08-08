@@ -68,6 +68,7 @@ No Modules.
 | helm\_create\_namespace | Create the namespace if it does not yet exist | `bool` | `true` | no |
 | helm\_release\_name | Helm release name | `string` | `"cluster-autoscaler"` | no |
 | helm\_repo\_url | Helm repository | `string` | `"https://kubernetes.github.io/autoscaler"` | no |
+| k8s\_irsa\_role\_create | Whether to create IRSA role and annotate service account | `bool` | `true` | no |
 | k8s\_namespace | The K8s namespace in which the node-problem-detector service account has been created | `string` | `"cluster-autoscaler"` | no |
 | k8s\_rbac\_create | Whether to create and use RBAC resources | `bool` | `true` | no |
 | k8s\_service\_account\_create | Whether to create Service Account | `bool` | `true` | no |

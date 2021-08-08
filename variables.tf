@@ -66,6 +66,11 @@ variable "k8s_service_account_create" {
   description = "Whether to create Service Account"
 }
 
+variable "k8s_irsa_role_create" {
+  type        = bool
+  default     = true
+  description = "Whether to create IRSA role and annotate service account"
+}
 
 variable "k8s_service_account_name" {
   default     = "cluster-autoscaler"

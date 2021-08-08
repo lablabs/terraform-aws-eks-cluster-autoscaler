@@ -1,4 +1,6 @@
 locals {
+  k8s_irsa_role_create = var.enabled && var.k8s_rbac_create && var.k8s_service_account_create && var.k8s_irsa_role_create
+
   values = yamlencode({
     "awsRegion" : data.aws_region.current.name,
     "autoDiscovery" : {
@@ -10,7 +12,7 @@ locals {
         "create" : var.k8s_service_account_create,
         "name" : var.k8s_service_account_name
         "annotations" : {
-          "eks.amazonaws.com/role-arn" : var.enabled ? aws_iam_role.cluster_autoscaler[0].arn : ""
+          "eks.amazonaws.com/role-arn" : local.k8s_irsa_role_create ? aws_iam_role.cluster_autoscaler[0].arn : ""
         }
       }
     }
