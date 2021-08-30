@@ -1,5 +1,6 @@
 module "vpc" {
-  source = "terraform-aws-modules/vpc/aws"
+  source  = "terraform-aws-modules/vpc/aws"
+  version = "3.6.0"
 
   name               = "cluster-autoscaler-vpc"
   cidr               = "10.0.0.0/16"
@@ -9,30 +10,26 @@ module "vpc" {
 }
 
 module "eks_cluster" {
-  source = "cloudposse/eks-cluster/aws"
+  source  = "cloudposse/eks-cluster/aws"
+  version = "0.43.2"
 
   region     = "eu-central-1"
   subnet_ids = module.vpc.public_subnets
   vpc_id     = module.vpc.vpc_id
   name       = "cluster-autoscaler"
-
-  workers_security_group_ids = [module.eks_workers.security_group_id]
-  workers_role_arns          = [module.eks_workers.workers_role_arn]
 }
 
-module "eks_workers" {
-  source = "cloudposse/eks-workers/aws"
+module "eks_node_group" {
+  source  = "cloudposse/eks-node-group/aws"
+  version = "0.25.0"
 
-  cluster_certificate_authority_data = module.eks_cluster.eks_cluster_certificate_authority_data
-  cluster_endpoint                   = module.eks_cluster.eks_cluster_endpoint
-  cluster_name                       = "cluster-autoscaler"
-  instance_type                      = "t3.medium"
-  max_size                           = 1
-  min_size                           = 1
-  subnet_ids                         = module.vpc.public_subnets
-  vpc_id                             = module.vpc.vpc_id
-
-  associate_public_ip_address = true
+  cluster_name   = "cluster-autoscaler"
+  instance_types = ["t3.medium"]
+  subnet_ids     = module.vpc.public_subnets
+  min_size       = 1
+  desired_size   = 1
+  max_size       = 2
+  depends_on     = [module.eks_cluster.kubernetes_config_map_id]
 }
 
 module "cluster_autoscaler" {
