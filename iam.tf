@@ -1,16 +1,5 @@
-resource "kubernetes_namespace" "cluster_autoscaler" {
-  depends_on = [var.mod_dependency]
-  count      = (var.enabled && var.k8s_namespace != "kube-system") ? 1 : 0
-
-  metadata {
-    name = var.k8s_namespace
-  }
-}
-
-### iam ###
-# Policy
 data "aws_iam_policy_document" "cluster_autoscaler" {
-  count = var.enabled ? 1 : 0
+  count = local.k8s_irsa_role_create ? 1 : 0
 
   statement {
     sid = "Autoscaling"
@@ -35,8 +24,7 @@ data "aws_iam_policy_document" "cluster_autoscaler" {
 }
 
 resource "aws_iam_policy" "cluster_autoscaler" {
-  depends_on  = [var.mod_dependency]
-  count       = var.enabled ? 1 : 0
+  count       = local.k8s_irsa_role_create ? 1 : 0
   name        = "${var.cluster_name}-cluster-autoscaler"
   path        = "/"
   description = "Policy for cluster-autoscaler service"
@@ -44,9 +32,8 @@ resource "aws_iam_policy" "cluster_autoscaler" {
   policy = data.aws_iam_policy_document.cluster_autoscaler[0].json
 }
 
-# Role
 data "aws_iam_policy_document" "cluster_autoscaler_assume" {
-  count = var.enabled ? 1 : 0
+  count = local.k8s_irsa_role_create ? 1 : 0
 
   statement {
     actions = ["sts:AssumeRoleWithWebIdentity"]
@@ -70,15 +57,13 @@ data "aws_iam_policy_document" "cluster_autoscaler_assume" {
 }
 
 resource "aws_iam_role" "cluster_autoscaler" {
-  depends_on         = [var.mod_dependency]
-  count              = var.enabled ? 1 : 0
+  count              = local.k8s_irsa_role_create ? 1 : 0
   name               = "${var.cluster_name}-cluster-autoscaler"
   assume_role_policy = data.aws_iam_policy_document.cluster_autoscaler_assume[0].json
 }
 
 resource "aws_iam_role_policy_attachment" "cluster_autoscaler" {
-  depends_on = [var.mod_dependency]
-  count      = var.enabled ? 1 : 0
+  count      = local.k8s_irsa_role_create ? 1 : 0
   role       = aws_iam_role.cluster_autoscaler[0].name
   policy_arn = aws_iam_policy.cluster_autoscaler[0].arn
 }

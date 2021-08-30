@@ -1,4 +1,8 @@
-# Required module inputs
+variable "enabled" {
+  type        = bool
+  default     = true
+  description = "Variable indicating whether deployment is enabled"
+}
 
 variable "cluster_name" {
   type        = string
@@ -15,16 +19,6 @@ variable "cluster_identity_oidc_issuer_arn" {
   description = "The OIDC Identity issuer ARN for the cluster that can be used to associate IAM roles with a service account"
 }
 
-# cluster-autoscaler
-
-variable "enabled" {
-  type        = bool
-  default     = true
-  description = "Variable indicating whether deployment is enabled"
-}
-
-# Helm
-
 variable "helm_chart_name" {
   type        = string
   default     = "cluster-autoscaler"
@@ -33,7 +27,7 @@ variable "helm_chart_name" {
 
 variable "helm_chart_version" {
   type        = string
-  default     = "9.7.0"
+  default     = "9.10.3"
   description = "Version of the Helm chart"
 }
 
@@ -42,14 +36,17 @@ variable "helm_release_name" {
   default     = "cluster-autoscaler"
   description = "Helm release name"
 }
-
 variable "helm_repo_url" {
   type        = string
   default     = "https://kubernetes.github.io/autoscaler"
   description = "Helm repository"
 }
 
-# K8s
+variable "helm_create_namespace" {
+  type        = bool
+  default     = true
+  description = "Create the namespace if it does not yet exist"
+}
 
 variable "k8s_namespace" {
   type        = string
@@ -57,15 +54,27 @@ variable "k8s_namespace" {
   description = "The K8s namespace in which the node-problem-detector service account has been created"
 }
 
+variable "k8s_rbac_create" {
+  type        = bool
+  default     = true
+  description = "Whether to create and use RBAC resources"
+}
+
+variable "k8s_service_account_create" {
+  type        = bool
+  default     = true
+  description = "Whether to create Service Account"
+}
+
+variable "k8s_irsa_role_create" {
+  type        = bool
+  default     = true
+  description = "Whether to create IRSA role and annotate service account"
+}
+
 variable "k8s_service_account_name" {
   default     = "cluster-autoscaler"
   description = "The k8s cluster-autoscaler service account name"
-}
-
-variable "mod_dependency" {
-  type        = bool
-  default     = null
-  description = "Dependence variable binds all AWS resources allocated by this module, dependent modules reference this variable"
 }
 
 variable "settings" {
