@@ -88,3 +88,41 @@ variable "values" {
   default     = ""
   description = "Additional yaml encoded values which will be passed to the Helm chart, see https://hub.helm.sh/charts/stable/cluster-autoscaler"
 }
+
+variable "argo_namespace" {
+  type        = string
+  default     = "argo"
+  description = "Namespace to deploy ArgoCD application CRD to"
+}
+
+
+variable "argocd_application" {
+  type        = bool
+  default     = false
+  description = "If set to true, the module will be deployed as ArgoCD application, otherwise it will be deployed as a Helm release"
+}
+
+variable "argo_destionation_server" {
+  type        = string
+  default     = "https://kubernetes.default.svc"
+  description = "Destination server for ArgoCD Application"
+}
+
+variable "argo_project" {
+  type        = string
+  default     = "default"
+  description = "ArgoCD Application project"
+}
+
+variable "argo_info" {
+  default = [{
+    "name"  = "terraform"
+    "value" = "true"
+  }]
+  description = "ArgoCD info manifest parameter"
+}
+
+variable "argo_sync_policy" {
+  description = "ArgoCD syncPolicy manifest parameter"
+  default     = {}
+}
