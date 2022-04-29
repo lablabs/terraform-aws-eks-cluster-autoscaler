@@ -7,8 +7,8 @@ locals {
       "targetRevision" : var.helm_chart_version
       "helm" : {
         "releaseName" : var.helm_release_name
-        "parameters" : [for k, v in var.settings : tomap({ "forceString" : true, "name" : k, "value" : v })]
-        "values" : data.utils_deep_merge_yaml.values[0].output
+        "parameters" : [for k, v in var.helm_set : tomap({ "forceString" : true, "name" : k, "value" : v })]
+        "values" : data.utils_deep_merge_yaml.helm_values[0].output
       }
     }
     "destination" : {
@@ -21,7 +21,7 @@ locals {
 }
 
 data "utils_deep_merge_yaml" "argo_application_values" {
-  count = var.enabled && var.argo_application_enabled && var.argo_application_use_helm ? 1 : 0
+  count = var.enabled && var.argo_enabled && var.argo_application_use_helm ? 1 : 0
   input = compact([
     yamlencode(local.argo_application_values),
     var.argo_application_values
@@ -29,7 +29,7 @@ data "utils_deep_merge_yaml" "argo_application_values" {
 }
 
 resource "helm_release" "argocd_application" {
-  count = var.enabled && var.argo_application_enabled && var.argo_application_use_helm ? 1 : 0
+  count = var.enabled && var.argo_enabled && var.argo_application_use_helm ? 1 : 0
 
   chart     = "${path.module}/helm/argocd-application"
   name      = var.helm_release_name
@@ -42,7 +42,7 @@ resource "helm_release" "argocd_application" {
 
 
 resource "kubernetes_manifest" "self" {
-  count = var.enabled && var.argo_application_enabled && !var.argo_application_use_helm ? 1 : 0
+  count = var.enabled && var.argo_enabled && !var.argo_application_use_helm ? 1 : 0
   manifest = {
     "apiVersion" = "argoproj.io/v1alpha1"
     "kind"       = "Application"
