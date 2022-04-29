@@ -2,7 +2,7 @@ locals {
   irsa_role_create = var.enabled && var.rbac_create && var.service_account_create && var.irsa_role_create
 }
 
-data "aws_iam_policy_document" "cluster_autoscaler" {
+data "aws_iam_policy_document" "this" {
   count = local.irsa_role_create ? 1 : 0
 
   statement {
@@ -27,16 +27,16 @@ data "aws_iam_policy_document" "cluster_autoscaler" {
 
 }
 
-resource "aws_iam_policy" "cluster_autoscaler" {
+resource "aws_iam_policy" "this" {
   count       = local.irsa_role_create ? 1 : 0
   name        = "${var.cluster_name}-cluster-autoscaler"
   path        = "/"
   description = "Policy for cluster-autoscaler service"
 
-  policy = data.aws_iam_policy_document.cluster_autoscaler[0].json
+  policy = data.aws_iam_policy_document.this[0].json
 }
 
-data "aws_iam_policy_document" "cluster_autoscaler_assume" {
+data "aws_iam_policy_document" "this_assume" {
   count = local.irsa_role_create ? 1 : 0
 
   statement {
@@ -60,14 +60,14 @@ data "aws_iam_policy_document" "cluster_autoscaler_assume" {
   }
 }
 
-resource "aws_iam_role" "cluster_autoscaler" {
+resource "aws_iam_role" "this" {
   count              = local.irsa_role_create ? 1 : 0
   name               = "${var.cluster_name}-cluster-autoscaler"
-  assume_role_policy = data.aws_iam_policy_document.cluster_autoscaler_assume[0].json
+  assume_role_policy = data.aws_iam_policy_document.this_assume[0].json
 }
 
-resource "aws_iam_role_policy_attachment" "cluster_autoscaler" {
+resource "aws_iam_role_policy_attachment" "this" {
   count      = local.irsa_role_create ? 1 : 0
-  role       = aws_iam_role.cluster_autoscaler[0].name
-  policy_arn = aws_iam_policy.cluster_autoscaler[0].arn
+  role       = aws_iam_role.this[0].name
+  policy_arn = aws_iam_policy.this[0].arn
 }
