@@ -1,5 +1,9 @@
+locals {
+  irsa_role_create = var.enabled && var.rbac_create && var.service_account_create && var.irsa_role_create
+}
+
 data "aws_iam_policy_document" "cluster_autoscaler" {
-  count = local.k8s_irsa_role_create ? 1 : 0
+  count = local.irsa_role_create ? 1 : 0
 
   statement {
     sid = "Autoscaling"
@@ -24,7 +28,7 @@ data "aws_iam_policy_document" "cluster_autoscaler" {
 }
 
 resource "aws_iam_policy" "cluster_autoscaler" {
-  count       = local.k8s_irsa_role_create ? 1 : 0
+  count       = local.irsa_role_create ? 1 : 0
   name        = "${var.cluster_name}-cluster-autoscaler"
   path        = "/"
   description = "Policy for cluster-autoscaler service"
@@ -33,7 +37,7 @@ resource "aws_iam_policy" "cluster_autoscaler" {
 }
 
 data "aws_iam_policy_document" "cluster_autoscaler_assume" {
-  count = local.k8s_irsa_role_create ? 1 : 0
+  count = local.irsa_role_create ? 1 : 0
 
   statement {
     actions = ["sts:AssumeRoleWithWebIdentity"]
@@ -48,7 +52,7 @@ data "aws_iam_policy_document" "cluster_autoscaler_assume" {
       variable = "${replace(var.cluster_identity_oidc_issuer, "https://", "")}:sub"
 
       values = [
-        "system:serviceaccount:${var.k8s_namespace}:${var.k8s_service_account_name}",
+        "system:serviceaccount:${var.namespace}:${var.service_account_name}",
       ]
     }
 
@@ -57,13 +61,13 @@ data "aws_iam_policy_document" "cluster_autoscaler_assume" {
 }
 
 resource "aws_iam_role" "cluster_autoscaler" {
-  count              = local.k8s_irsa_role_create ? 1 : 0
+  count              = local.irsa_role_create ? 1 : 0
   name               = "${var.cluster_name}-cluster-autoscaler"
   assume_role_policy = data.aws_iam_policy_document.cluster_autoscaler_assume[0].json
 }
 
 resource "aws_iam_role_policy_attachment" "cluster_autoscaler" {
-  count      = local.k8s_irsa_role_create ? 1 : 0
+  count      = local.irsa_role_create ? 1 : 0
   role       = aws_iam_role.cluster_autoscaler[0].name
   policy_arn = aws_iam_policy.cluster_autoscaler[0].arn
 }

@@ -1,5 +1,5 @@
 locals {
-  k8s_irsa_role_create = var.enabled && var.k8s_rbac_create && var.k8s_service_account_create && var.k8s_irsa_role_create
+  irsa_role_create = var.enabled && var.rbac_create && var.service_account_create && var.irsa_role_create
 
   values = yamlencode({
     "awsRegion" : data.aws_region.current.name,
@@ -7,12 +7,12 @@ locals {
       "clusterName" : var.cluster_name
     },
     "rbac" : {
-      "create" : var.k8s_rbac_create,
+      "create" : var.rbac_create,
       "serviceAccount" : {
-        "create" : var.k8s_service_account_create,
-        "name" : var.k8s_service_account_name
+        "create" : var.service_account_create,
+        "name" : var.service_account_name
         "annotations" : {
-          "eks.amazonaws.com/role-arn" : local.k8s_irsa_role_create ? aws_iam_role.cluster_autoscaler[0].arn : ""
+          "eks.amazonaws.com/role-arn" : local.irsa_role_create ? aws_iam_role.cluster_autoscaler[0].arn : ""
         }
       }
     }
@@ -33,7 +33,7 @@ resource "helm_release" "cluster_autoscaler" {
   count            = var.enabled && !var.argo_application_enabled ? 1 : 0
   chart            = var.helm_chart_name
   create_namespace = var.helm_create_namespace
-  namespace        = var.k8s_namespace
+  namespace        = var.namespace
   name             = var.helm_release_name
   version          = var.helm_chart_version
   repository       = var.helm_repo_url

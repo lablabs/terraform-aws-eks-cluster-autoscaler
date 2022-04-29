@@ -48,31 +48,31 @@ variable "helm_create_namespace" {
   description = "Create the namespace if it does not yet exist"
 }
 
-variable "k8s_namespace" {
+variable "namespace" {
   type        = string
   default     = "cluster-autoscaler"
   description = "The K8s namespace in which the node-problem-detector service account has been created"
 }
 
-variable "k8s_rbac_create" {
+variable "rbac_create" {
   type        = bool
   default     = true
   description = "Whether to create and use RBAC resources"
 }
 
-variable "k8s_service_account_create" {
+variable "service_account_create" {
   type        = bool
   default     = true
   description = "Whether to create Service Account"
 }
 
-variable "k8s_irsa_role_create" {
+variable "irsa_role_create" {
   type        = bool
   default     = true
   description = "Whether to create IRSA role and annotate service account"
 }
 
-variable "k8s_service_account_name" {
+variable "service_account_name" {
   default     = "cluster-autoscaler"
   description = "The k8s cluster-autoscaler service account name"
 }
