@@ -72,6 +72,12 @@ variable "irsa_role_create" {
   description = "Whether to create IRSA role and annotate service account"
 }
 
+variable "irsa_role_name_prefix" {
+  type        = string
+  default     = "eks-irsa"
+  description = "The IRSA role name prefix for vector"
+}
+
 variable "service_account_name" {
   default     = "cluster-autoscaler"
   description = "The k8s cluster-autoscaler service account name"
