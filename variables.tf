@@ -113,7 +113,7 @@ variable "argo_enabled" {
   description = "If set to true, the module will be deployed as ArgoCD application, otherwise it will be deployed as a Helm release"
 }
 
-variable "argo_application_use_helm" {
+variable "argo_helm_enabled" {
   type        = bool
   default     = false
   description = "If set to true, the ArgoCD Application manifest will be deployed using Kubernetes provider as a Helm release. Otherwise it'll be deployed as a Kubernetes manifest. See Readme for more info"
@@ -303,4 +303,54 @@ variable "helm_lint" {
   type        = bool
   default     = false
   description = "Run the helm chart linter during the plan"
+}
+
+variable "argo_metadata" {
+  default     = {}
+  description = "ArgoCD Application metadata configuration. Override or create additional metadata parameters"
+}
+
+variable "argo_apiversion" {
+  default     = "argoproj.io/v1alpha1"
+  description = "ArgoCD Appliction apiVersion"
+}
+
+variable "argo_spec" {
+  default     = {}
+  description = "ArgoCD Application spec configuration. Override or create additional spec parameters"
+}
+
+variable "argo_helm_values" {
+  type        = string
+  default     = ""
+  description = "Value overrides to use when deploying argo application object with helm"
+}
+
+variable "argo_kubernetes_manifest_computed_fields" {
+  type        = list(string)
+  default     = ["metadata.labels", "metadata.annotations"]
+  description = "List of paths of fields to be handled as \"computed\". The user-configured value for the field will be overridden by any different value returned by the API after apply."
+}
+
+variable "argo_kubernetes_manifest_field_manager_name" {
+  default     = "Terraform"
+  description = "The name of the field manager to use when applying the kubernetes manifest resource. Defaults to Terraform"
+}
+
+variable "argo_kubernetes_manifest_field_manager_force_conflicts" {
+  type        = bool
+  default     = false
+  description = "Forcibly override any field manager conflicts when applying the kubernetes manifest resource"
+}
+
+variable "argo_kubernetes_manifest_wait_for_fields" {
+  type        = map(string)
+  default     = {}
+  description = "A map of fields and a corresponding regular expression with a pattern to wait for. The provider will wait until the field matches the regular expression. Use * for any value."
+}
+
+variable "irsa_tags" {
+  type        = map(string)
+  default     = {}
+  description = "IRSA resources tags"
 }

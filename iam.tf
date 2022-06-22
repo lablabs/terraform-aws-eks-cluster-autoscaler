@@ -30,7 +30,7 @@ data "aws_iam_policy_document" "this" {
 
 resource "aws_iam_policy" "this" {
   count       = local.irsa_role_create ? 1 : 0
-  name        = "${var.cluster_name}-cluster-autoscaler"
+  name        = "${var.cluster_name}-${var.helm_chart_name}"
   path        = "/"
   description = "Policy for cluster-autoscaler service"
 
@@ -63,8 +63,9 @@ data "aws_iam_policy_document" "this_assume" {
 
 resource "aws_iam_role" "this" {
   count              = local.irsa_role_create ? 1 : 0
-  name               = "${var.cluster_name}-cluster-autoscaler"
+  name               = "${var.cluster_name}-${var.helm_chart_name}"
   assume_role_policy = data.aws_iam_policy_document.this_assume[0].json
+  tags               = var.irsa_tags
 }
 
 resource "aws_iam_role_policy_attachment" "this" {
