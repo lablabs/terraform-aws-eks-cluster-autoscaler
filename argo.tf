@@ -17,7 +17,7 @@ locals {
       }
     }
     "destination" : {
-      "server" : var.argo_destionation_server
+      "server" : var.argo_destination_server
       "namespace" : var.namespace
     }
     "syncPolicy" : var.argo_sync_policy
@@ -80,7 +80,7 @@ resource "kubernetes_manifest" "this" {
     force_conflicts = var.argo_kubernetes_manifest_field_manager_force_conflicts
   }
 
-  wait_for = {
+  wait {
     fields = var.argo_kubernetes_manifest_wait_for_fields
   }
 }

@@ -27,7 +27,7 @@ variable "helm_chart_name" {
 
 variable "helm_chart_version" {
   type        = string
-  default     = "9.10.3"
+  default     = "9.19.1"
   description = "Version of the Helm chart"
 }
 
@@ -125,12 +125,7 @@ variable "argo_helm_enabled" {
   description = "If set to true, the ArgoCD Application manifest will be deployed using Kubernetes provider as a Helm release. Otherwise it'll be deployed as a Kubernetes manifest. See Readme for more info"
 }
 
-variable "argo_application_values" {
-  default     = ""
-  description = "Value overrides to use when deploying argo application object with helm"
-}
-
-variable "argo_destionation_server" {
+variable "argo_destination_server" {
   type        = string
   default     = "https://kubernetes.default.svc"
   description = "Destination server for ArgoCD Application"
@@ -312,7 +307,11 @@ variable "helm_lint" {
 }
 
 variable "argo_metadata" {
-  default     = {}
+  default = {
+    "finalizers" : [
+      "resources-finalizer.argocd.argoproj.io"
+    ]
+  }
   description = "ArgoCD Application metadata configuration. Override or create additional metadata parameters"
 }
 
