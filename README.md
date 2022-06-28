@@ -43,11 +43,6 @@ To assume role set `irsa_assume_role_enabled = true` and specify `irsa_assume_ro
 
 See [Basic example](examples/basic/README.md) for further information.
 
-## Potential issues with running terraform plan
-
-When deploying with ArgoCD application, Kubernetes terraform provider requires access to Kubernetes cluster API during plan time. This introduces potential issue when you want to deploy the cluster with this addon at the same time, during the same Terraform run.
-
-To overcome this issue, the module deploys the ArgoCD application object using the Helm provider, which does not require API access during plan. If you want to deploy the application using this workaround, you can set the `argo_helm_enabled` variable to `true`.
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
