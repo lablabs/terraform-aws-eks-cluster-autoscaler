@@ -72,6 +72,29 @@ variable "irsa_role_create" {
   description = "Whether to create IRSA role and annotate service account"
 }
 
+variable "irsa_policy_enabled" {
+  type        = bool
+  default     = true
+  description = "Whether to create opinionated policy to allow operations on specified zones in `policy_allowed_zone_ids`."
+}
+
+variable "irsa_assume_role_enabled" {
+  type        = bool
+  default     = false
+  description = "Whether IRSA is allowed to assume role defined by assume_role_arn. Useful for hosted zones in another AWS account."
+}
+
+variable "irsa_assume_role_arn" {
+  default     = ""
+  description = "Assume role arn. Assume role must be enabled."
+}
+
+variable "irsa_additional_policies" {
+  type        = map(string)
+  default     = {}
+  description = "Map of the additional policies to be attached to default role. Where key is arbitrary id and value is policy arn."
+}
+
 variable "irsa_role_name_prefix" {
   type        = string
   default     = "eks-irsa"
