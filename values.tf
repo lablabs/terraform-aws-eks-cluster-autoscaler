@@ -1,7 +1,7 @@
 data "aws_region" "current" {}
 
 locals {
-  helm_values_default = yamlencode({
+  values_default = yamlencode({
     "awsRegion" : data.aws_region.current.name,
     "autoDiscovery" : {
       "clusterName" : var.cluster_name
@@ -19,10 +19,10 @@ locals {
   })
 }
 
-data "utils_deep_merge_yaml" "helm_values" {
+data "utils_deep_merge_yaml" "values" {
   count = var.enabled ? 1 : 0
   input = compact([
-    local.helm_values_default,
-    var.helm_values
+    local.values_default,
+    var.values
   ])
 }

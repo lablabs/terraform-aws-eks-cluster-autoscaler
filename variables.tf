@@ -83,7 +83,7 @@ variable "service_account_name" {
   description = "The k8s cluster-autoscaler service account name"
 }
 
-variable "helm_set" {
+variable "settings" {
   type        = map(any)
   default     = {}
   description = "Additional helm sets which will be passed to the Helm chart values, see https://hub.helm.sh/charts/stable/cluster-autoscaler"
@@ -101,7 +101,7 @@ variable "helm_postrender" {
   description = "Value block with a path to a binary file to run after helm renders the manifest which can alter the manifest contents"
 }
 
-variable "helm_values" {
+variable "values" {
   type        = string
   default     = ""
   description = "Additional yaml encoded values which will be passed to the Helm chart, see https://hub.helm.sh/charts/stable/cluster-autoscaler"
@@ -348,7 +348,7 @@ variable "argo_kubernetes_manifest_field_manager_force_conflicts" {
   description = "Forcibly override any field manager conflicts when applying the kubernetes manifest resource"
 }
 
-variable "argo_kubernetes_manifest_wait_for_fields" {
+variable "argo_kubernetes_manifest_wait_fields" {
   type        = map(string)
   default     = {}
   description = "A map of fields and a corresponding regular expression with a pattern to wait for. The provider will wait until the field matches the regular expression. Use * for any value."

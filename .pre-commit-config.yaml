@@ -10,7 +10,7 @@ repos:
       - id: end-of-file-fixer
 
   - repo: https://github.com/antonbabenko/pre-commit-terraform
-    rev: v1.72.1
+    rev: v1.71.0
     hooks:
     - id: terraform_fmt
     - id: terraform_tflint
@@ -32,8 +32,6 @@ repos:
         args: ['--baseline', '.secrets.baseline']
         exclude: terraform.tfstate
 
-  # https://www.conventionalcommits.org/en/v1.0.0/#specification
-  # https://github.com/angular/angular/blob/22b96b9/CONTRIBUTING.md#type
   - repo: https://github.com/alessandrojcm/commitlint-pre-commit-hook
     rev: v8.0.0
     hooks:
