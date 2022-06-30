@@ -32,10 +32,72 @@ module "eks_node_group" {
   depends_on     = [module.eks_cluster.kubernetes_config_map_id]
 }
 
-module "cluster_autoscaler" {
+module "cluster-autoscaler_helm" {
   source = "../../"
+
+  enabled           = true
+  argo_enabled      = false
+  argo_helm_enabled = false
 
   cluster_name                     = module.eks_cluster.eks_cluster_id
   cluster_identity_oidc_issuer     = module.eks_cluster.eks_cluster_identity_oidc_issuer
   cluster_identity_oidc_issuer_arn = module.eks_cluster.eks_cluster_identity_oidc_issuer_arn
+
+  values = yamlencode({
+    "image" : {
+      "tag" : "v1.21.2"
+    }
+  })
+
+  argo_sync_policy = {
+    "automated" : {}
+    "syncOptions" = ["CreateNamespace=true"]
+  }
+}
+
+module "cluster-autoscaler_argo_manifests" {
+  source = "../../"
+
+  enabled           = true
+  argo_enabled      = true
+  argo_helm_enabled = false
+
+  cluster_name                     = module.eks_cluster.eks_cluster_id
+  cluster_identity_oidc_issuer     = module.eks_cluster.eks_cluster_identity_oidc_issuer
+  cluster_identity_oidc_issuer_arn = module.eks_cluster.eks_cluster_identity_oidc_issuer_arn
+
+  values = yamlencode({
+    "image" : {
+      "tag" : "v1.21.2"
+    }
+  })
+
+  argo_sync_policy = {
+    "automated" : {}
+    "syncOptions" = ["CreateNamespace=true"]
+  }
+}
+
+
+module "cluster-autoscaler_argo_helm" {
+  source = "../../"
+
+  enabled           = true
+  argo_enabled      = true
+  argo_helm_enabled = true
+
+  cluster_name                     = module.eks_cluster.eks_cluster_id
+  cluster_identity_oidc_issuer     = module.eks_cluster.eks_cluster_identity_oidc_issuer
+  cluster_identity_oidc_issuer_arn = module.eks_cluster.eks_cluster_identity_oidc_issuer_arn
+
+  values = yamlencode({
+    "image" : {
+      "tag" : "v1.21.2"
+    }
+  })
+
+  argo_sync_policy = {
+    "automated" : {}
+    "syncOptions" = ["CreateNamespace=true"]
+  }
 }

@@ -81,7 +81,7 @@ variable "irsa_policy_enabled" {
 variable "irsa_assume_role_enabled" {
   type        = bool
   default     = false
-  description = "Whether IRSA is allowed to assume role defined by assume_role_arn. Useful for hosted zones in another AWS account."
+  description = "Whether IRSA is allowed to assume role defined by assume_role_arn."
 }
 
 variable "irsa_assume_role_arn" {
@@ -97,7 +97,7 @@ variable "irsa_additional_policies" {
 
 variable "irsa_role_name_prefix" {
   type        = string
-  default     = "eks-irsa"
+  default     = "cluster-autoscaler-irsa"
   description = "The IRSA role name prefix for vector"
 }
 
