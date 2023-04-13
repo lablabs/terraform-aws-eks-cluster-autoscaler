@@ -97,7 +97,7 @@ variable "irsa_additional_policies" {
 
 variable "irsa_role_name_prefix" {
   type        = string
-  default     = "cluster-autoscaler-irsa"
+  default     = "irsa"
   description = "The IRSA role name prefix for vector"
 }
 
