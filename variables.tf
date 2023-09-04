@@ -377,6 +377,12 @@ variable "argo_kubernetes_manifest_wait_fields" {
   description = "A map of fields and a corresponding regular expression with a pattern to wait for. The provider will wait until the field matches the regular expression. Use * for any value."
 }
 
+variable "irsa_permissions_boundary" {
+  type        = string
+  default     = ""
+  description = "An ARN of a policy permission boundary to attach to the irsa role."
+
+}
 variable "irsa_tags" {
   type        = map(string)
   default     = {}
