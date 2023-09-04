@@ -383,6 +383,7 @@ variable "irsa_permissions_boundary" {
   description = "An ARN of a policy permission boundary to attach to the irsa role."
 
 }
+
 variable "irsa_tags" {
   type        = map(string)
   default     = {}
