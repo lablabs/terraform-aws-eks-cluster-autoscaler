@@ -36,6 +36,7 @@ variable "helm_release_name" {
   default     = "cluster-autoscaler"
   description = "Helm release name"
 }
+
 variable "helm_repo_url" {
   type        = string
   default     = "https://kubernetes.github.io/autoscaler"
@@ -54,6 +55,20 @@ variable "namespace" {
   description = "The K8s namespace in which the node-problem-detector service account has been created"
 }
 
+variable "settings" {
+  type        = map(any)
+  default     = {}
+  description = "Additional helm sets which will be passed to the Helm chart values, see https://hub.helm.sh/charts/stable/<$addon-name>"
+}
+
+variable "values" {
+  type        = string
+  default     = ""
+  description = "Additional yaml encoded values which will be passed to the Helm chart, see https://hub.helm.sh/charts/stable/<$addon-name>"
+}
+
+# ================ IRSA variables (optional) ================
+
 variable "rbac_create" {
   type        = bool
   default     = true
@@ -64,6 +79,12 @@ variable "service_account_create" {
   type        = bool
   default     = true
   description = "Whether to create Service Account"
+}
+
+variable "service_account_name" {
+  type        = string
+  default     = "cluster-autoscaler"
+  description = "The k8s <$addon-name> service account name"
 }
 
 variable "irsa_role_create" {
@@ -81,10 +102,11 @@ variable "irsa_policy_enabled" {
 variable "irsa_assume_role_enabled" {
   type        = bool
   default     = false
-  description = "Whether IRSA is allowed to assume role defined by assume_role_arn."
+  description = "Whether IRSA is allowed to assume role defined by irsa_assume_role_arn."
 }
 
 variable "irsa_assume_role_arn" {
+  type        = string
   default     = ""
   description = "Assume role arn. Assume role must be enabled."
 }
@@ -98,37 +120,16 @@ variable "irsa_additional_policies" {
 variable "irsa_role_name_prefix" {
   type        = string
   default     = "cluster-autoscaler-irsa"
-  description = "The IRSA role name prefix for vector"
+  description = "The IRSA role name prefix for <$addon-name>"
 }
 
-variable "service_account_name" {
-  default     = "cluster-autoscaler"
-  description = "The k8s cluster-autoscaler service account name"
-}
-
-variable "settings" {
-  type        = map(any)
+variable "irsa_tags" {
+  type        = map(string)
   default     = {}
-  description = "Additional helm sets which will be passed to the Helm chart values, see https://hub.helm.sh/charts/stable/cluster-autoscaler"
+  description = "IRSA resources tags"
 }
 
-variable "helm_set_sensitive" {
-  type        = map(any)
-  default     = {}
-  description = "Value block with custom sensitive values to be merged with the values yaml that won't be exposed in the plan's diff"
-}
-
-variable "helm_postrender" {
-  type        = map(any)
-  default     = {}
-  description = "Value block with a path to a binary file to run after helm renders the manifest which can alter the manifest contents"
-}
-
-variable "values" {
-  type        = string
-  default     = ""
-  description = "Additional yaml encoded values which will be passed to the Helm chart, see https://hub.helm.sh/charts/stable/cluster-autoscaler"
-}
+# ================ argo variables (required) ================
 
 variable "argo_namespace" {
   type        = string
@@ -148,6 +149,18 @@ variable "argo_helm_enabled" {
   description = "If set to true, the ArgoCD Application manifest will be deployed using Kubernetes provider as a Helm release. Otherwise it'll be deployed as a Kubernetes manifest. See Readme for more info"
 }
 
+variable "argo_helm_wait_timeout" {
+  type        = string
+  default     = "10m"
+  description = "Timeout for ArgoCD Application Helm release wait job"
+}
+
+variable "argo_helm_wait_backoff_limit" {
+  type        = number
+  default     = 6
+  description = "Backoff limit for ArgoCD Application Helm release wait job"
+}
+
 variable "argo_destination_server" {
   type        = string
   default     = "https://kubernetes.default.svc"
@@ -161,6 +174,10 @@ variable "argo_project" {
 }
 
 variable "argo_info" {
+  type = list(object({
+    name  = string
+    value = string
+  }))
   default = [{
     "name"  = "terraform"
     "value" = "true"
@@ -169,9 +186,66 @@ variable "argo_info" {
 }
 
 variable "argo_sync_policy" {
+  type        = any
   description = "ArgoCD syncPolicy manifest parameter"
   default     = {}
 }
+
+variable "argo_metadata" {
+  type = any
+  default = {
+    "finalizers" : [
+      "resources-finalizer.argocd.argoproj.io"
+    ]
+  }
+  description = "ArgoCD Application metadata configuration. Override or create additional metadata parameters"
+}
+
+variable "argo_apiversion" {
+  type        = string
+  default     = "argoproj.io/v1alpha1"
+  description = "ArgoCD Appliction apiVersion"
+}
+
+variable "argo_spec" {
+  type        = any
+  default     = {}
+  description = "ArgoCD Application spec configuration. Override or create additional spec parameters"
+}
+
+variable "argo_helm_values" {
+  type        = string
+  default     = ""
+  description = "Value overrides to use when deploying argo application object with helm"
+}
+
+# ================ argo kubernetes manifest variables (required) ================
+
+variable "argo_kubernetes_manifest_computed_fields" {
+  type        = list(string)
+  default     = ["metadata.labels", "metadata.annotations", "metadata.finalizers"]
+  description = "List of paths of fields to be handled as \"computed\". The user-configured value for the field will be overridden by any different value returned by the API after apply."
+}
+
+variable "argo_kubernetes_manifest_field_manager_name" {
+  type        = string
+  default     = "Terraform"
+  description = "The name of the field manager to use when applying the kubernetes manifest resource. Defaults to Terraform"
+}
+
+variable "argo_kubernetes_manifest_field_manager_force_conflicts" {
+  type        = bool
+  default     = false
+  description = "Forcibly override any field manager conflicts when applying the kubernetes manifest resource"
+}
+
+variable "argo_kubernetes_manifest_wait_fields" {
+  type        = map(string)
+  default     = {}
+  description = "A map of fields and a corresponding regular expression with a pattern to wait for. The provider will wait until the field matches the regular expression. Use * for any value."
+}
+
+# ================ helm release variables (required) ================
 
 variable "helm_repo_key_file" {
   type        = string
@@ -329,56 +403,14 @@ variable "helm_lint" {
   description = "Run the helm chart linter during the plan"
 }
 
-variable "argo_metadata" {
-  default = {
-    "finalizers" : [
-      "resources-finalizer.argocd.argoproj.io"
-    ]
-  }
-  description = "ArgoCD Application metadata configuration. Override or create additional metadata parameters"
-}
-
-variable "argo_apiversion" {
-  default     = "argoproj.io/v1alpha1"
-  description = "ArgoCD Appliction apiVersion"
-}
-
-variable "argo_spec" {
+variable "helm_set_sensitive" {
+  type        = map(any)
   default     = {}
-  description = "ArgoCD Application spec configuration. Override or create additional spec parameters"
+  description = "Value block with custom sensitive values to be merged with the values yaml that won't be exposed in the plan's diff"
 }
 
-variable "argo_helm_values" {
-  type        = string
-  default     = ""
-  description = "Value overrides to use when deploying argo application object with helm"
-}
-
-variable "argo_kubernetes_manifest_computed_fields" {
-  type        = list(string)
-  default     = ["metadata.labels", "metadata.annotations"]
-  description = "List of paths of fields to be handled as \"computed\". The user-configured value for the field will be overridden by any different value returned by the API after apply."
-}
-
-variable "argo_kubernetes_manifest_field_manager_name" {
-  default     = "Terraform"
-  description = "The name of the field manager to use when applying the kubernetes manifest resource. Defaults to Terraform"
-}
-
-variable "argo_kubernetes_manifest_field_manager_force_conflicts" {
-  type        = bool
-  default     = false
-  description = "Forcibly override any field manager conflicts when applying the kubernetes manifest resource"
-}
-
-variable "argo_kubernetes_manifest_wait_fields" {
-  type        = map(string)
+variable "helm_postrender" {
+  type        = map(any)
   default     = {}
-  description = "A map of fields and a corresponding regular expression with a pattern to wait for. The provider will wait until the field matches the regular expression. Use * for any value."
-}
-
-variable "irsa_tags" {
-  type        = map(string)
-  default     = {}
-  description = "IRSA resources tags"
+  description = "Value block with a path to a binary file to run after helm renders the manifest which can alter the manifest contents"
 }
