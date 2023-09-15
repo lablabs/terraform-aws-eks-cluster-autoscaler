@@ -12,15 +12,15 @@ data "aws_iam_policy_document" "this" {
       "autoscaling:DescribeAutoScalingGroups",
       "autoscaling:DescribeAutoScalingInstances",
       "autoscaling:DescribeLaunchConfigurations",
+      "autoscaling:DescribeScalingActivities",
       "autoscaling:DescribeTags",
       "autoscaling:SetDesiredCapacity",
       "autoscaling:TerminateInstanceInAutoScalingGroup",
       "ec2:DescribeLaunchTemplateVersions",
-      "ec2:DescribeInstanceTypes",
-      "eks:DescribeNodegroup",
-      "autoscaling:DescribeScalingActivities",
       "ec2:DescribeImages",
-      "ec2:GetInstanceTypesFromInstanceRequirements"
+      "ec2:DescribeInstanceTypes",
+      "ec2:GetInstanceTypesFromInstanceRequirements",
+      "eks:DescribeNodegroup" 
     ]
 
     resources = [
