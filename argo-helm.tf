@@ -91,7 +91,7 @@ resource "kubernetes_job" "helm_argo_application_wait" {
   count = local.helm_argo_application_wait_enabled ? 1 : 0
 
   metadata {
-    generate_name = "${var.helm_release_name}-argo-application-wait"
+    generate_name = "${var.helm_release_name}-argo-application-wait-"
     namespace     = var.argo_namespace
     labels        = local.argo_application_metadata.labels
     annotations   = local.argo_application_metadata.annotations
@@ -125,6 +125,19 @@ resource "kubernetes_job" "helm_argo_application_wait" {
                 application.argoproj.io ${var.helm_release_name}
               EOT
             ]
+          }
+        }
+
+        node_selector = var.argo_helm_wait_node_selector
+
+        dynamic "toleration" {
+          for_each = var.argo_helm_wait_tolerations
+
+          content {
+            key      = try(toleration.value.key, null)
+            operator = try(toleration.value.operator, null)
+            value    = try(toleration.value.value, null)
+            effect   = try(toleration.value.effect, null)
           }
         }
 

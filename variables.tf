@@ -155,6 +155,18 @@ variable "argo_helm_wait_timeout" {
   description = "Timeout for ArgoCD Application Helm release wait job"
 }
 
+variable "argo_helm_wait_node_selector" {
+  type        = map(string)
+  default     = {}
+  description = "Node selector for ArgoCD Application Helm release wait job"
+}
+
+variable "argo_helm_wait_tolerations" {
+  type        = list(any)
+  default     = []
+  description = "Tolerations for ArgoCD Application Helm release wait job"
+}
+
 variable "argo_helm_wait_backoff_limit" {
   type        = number
   default     = 6
