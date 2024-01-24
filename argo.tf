@@ -25,39 +25,6 @@ locals {
   }
 }
 
-data "utils_deep_merge_yaml" "argo_helm_values" {
-  count = var.enabled && var.argo_enabled && var.argo_helm_enabled ? 1 : 0
-  input = compact([
-    yamlencode({
-      "apiVersion" : var.argo_apiversion
-    }),
-    yamlencode({
-      "spec" : local.argo_application_values
-    }),
-    yamlencode({
-      "spec" : var.argo_spec
-    }),
-    yamlencode(
-      local.argo_application_metadata
-    )
-  ])
-}
-
-
-resource "helm_release" "argo_application" {
-  count = var.enabled && var.argo_enabled && var.argo_helm_enabled ? 1 : 0
-
-  chart     = "${path.module}/helm/argocd-application"
-  name      = var.helm_release_name
-  namespace = var.argo_namespace
-
-  values = [
-    data.utils_deep_merge_yaml.argo_helm_values[0].output,
-    var.argo_helm_values
-  ]
-}
-
-
 resource "kubernetes_manifest" "this" {
   count = var.enabled && var.argo_enabled && !var.argo_helm_enabled ? 1 : 0
   manifest = {
