@@ -129,6 +129,12 @@ variable "irsa_tags" {
   description = "IRSA resources tags"
 }
 
+variable "irsa_permissions_boundary" {
+  type        = string
+  default     = ""
+  description = "An ARN of a policy permission boundary to attach to the irsa role."
+}
+
 # ================ argo variables (required) ================
 
 variable "argo_namespace" {

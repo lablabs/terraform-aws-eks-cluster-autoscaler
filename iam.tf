@@ -84,10 +84,11 @@ data "aws_iam_policy_document" "this_irsa" {
 }
 
 resource "aws_iam_role" "this" {
-  count              = local.irsa_role_create ? 1 : 0
-  name               = "${var.irsa_role_name_prefix}-${var.helm_chart_name}" # tflint-ignore: aws_iam_role_invalid_name
-  assume_role_policy = data.aws_iam_policy_document.this_irsa[0].json
-  tags               = var.irsa_tags
+  count                = local.irsa_role_create ? 1 : 0
+  name                 = "${var.irsa_role_name_prefix}-${var.helm_chart_name}" # tflint-ignore: aws_iam_role_invalid_name
+  assume_role_policy   = data.aws_iam_policy_document.this_irsa[0].json
+  permissions_boundary = var.irsa_permissions_boundary
+  tags                 = var.irsa_tags
 }
 
 resource "aws_iam_role_policy_attachment" "this" {
@@ -97,8 +98,7 @@ resource "aws_iam_role_policy_attachment" "this" {
 }
 
 resource "aws_iam_role_policy_attachment" "this_additional" {
-  for_each = local.irsa_role_create ? var.irsa_additional_policies : {}
-
+  for_each   = local.irsa_role_create ? var.irsa_additional_policies : {}
   role       = aws_iam_role.this[0].name
   policy_arn = each.value
 }
