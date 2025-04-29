@@ -12,6 +12,30 @@ variable "cluster_identity_oidc_issuer_arn" {
   description = "The OIDC Identity issuer ARN for the cluster that can be used to associate IAM roles with a Service Account (required)."
 }
 
+variable "rbac_create" {
+  type        = bool
+  default     = null
+  description = "Whether to create and use RBAC resources. Defaults to `true`."
+}
+
+variable "service_account_create" {
+  type        = bool
+  default     = null
+  description = "Whether to create Service Account. Defaults to `true`."
+}
+
+variable "service_account_name" {
+  type        = string
+  default     = null
+  description = "The Kubernetes Service Account name. Defaults to the addon name. Defaults to `\"\"`."
+}
+
+variable "service_account_namespace" {
+  type        = string
+  default     = null
+  description = "The Kubernetes Service Account namespace. Defaults to the addon namespace. Defaults to `\"\"`."
+}
+
 variable "irsa_role_create" {
   type        = bool
   default     = null

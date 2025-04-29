@@ -7,14 +7,6 @@ import argparse
 import logging
 from jinja2 import Environment, FileSystemLoader
 
-# TODO: Load variable names dynamically from variables-eks.tf
-excluded_variables = [
-  "rbac_create",
-  "service_account_create",
-  "service_account_name",
-  "service_account_namespace",
-]
-
 def filter_terraform_type(value):
     # Currently there is a limition in handling Terraform complex types
     #   https://github.com/amplify-education/python-hcl2/issues/179
@@ -70,7 +62,6 @@ def main(args):
     log = get_logger(args)
     log.info("Syncing variables from Terraform modules...")
     log.warning("Terraform variable complex types are NOT supported!")
-    log.info("Excluded variables: %s", excluded_variables)
 
     template = get_template()
 
@@ -88,14 +79,7 @@ def main(args):
             log.info("Reading variables from `%s`", source)
 
             variables = hcl2.load(f).get('variable')
-
             log.info("Collected variables: %d", len(variables))
-            log.debug(variables)
-
-            # Remove excluded variables
-            variables[:] = [item for item in variables if list(item.keys())[0] not in excluded_variables]
-
-            log.info("Filtered variables: %d", len(variables))
             log.debug(variables)
 
             with open(target, "w") as f:
