@@ -27,7 +27,7 @@ locals {
 
   addon_values = yamlencode({
     rbac = {
-      create = var.rbac_create
+      create = var.rbac_create != null ? var.rbac_create : true
       serviceAccount = {
         create = var.service_account_create != null ? var.service_account_create : true
         name   = var.service_account_name != null ? var.service_account_name : local.addon.name
