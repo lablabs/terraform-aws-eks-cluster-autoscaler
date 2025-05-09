@@ -1,5 +1,10 @@
+locals {
+  irsa_policy_enabled         = var.irsa_policy_enabled != null ? var.irsa_policy_enabled : coalesce(var.irsa_assume_role_enabled, false) == false
+  pod_identity_policy_enabled = var.pod_identity_policy_enabled != null ? var.pod_identity_policy_enabled : true
+}
+
 data "aws_iam_policy_document" "this" {
-  count = (var.enabled && var.irsa_policy == null) ? 1 : 0
+  count = var.enabled && ((local.irsa_policy_enabled && var.irsa_policy == null) || (local.pod_identity_policy_enabled && var.pod_identity_policy == null)) ? 1 : 0
 
   statement {
     sid = "Autoscaling"
