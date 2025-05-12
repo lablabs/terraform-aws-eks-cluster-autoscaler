@@ -2,8 +2,7 @@
 module "addon-irsa" {
   for_each = local.addon_irsa
 
-  source = "git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon-irsa?ref=dd95b27"
-  #source = "file:///home/mhs/git/terraform-aws-eks-universal-addon/modules/addon-irsa"
+  source = "git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon-irsa?ref=52101a3"
 
   enabled = var.enabled
 
