@@ -1,21 +1,21 @@
 # Argo
 moved {
-  from = helm_release.argo_application[0]
-  to   = module.addon.helm_release.argo_application[0]
+  from = helm_release.argo_application
+  to   = module.addon.helm_release.argo_application
 }
 
 # IRSA
 moved {
-  from = aws_iam_policy.this[0]
-  to   = module.addon-irsa["cluster-autoscaler"].aws_iam_policy.irsa[0]
+  from = aws_iam_policy.this
+  to   = module.addon-irsa["cluster-autoscaler"].aws_iam_policy.this
 }
 
 moved {
-  from = aws_iam_role.this[0]
-  to   = module.addon-irsa["cluster-autoscaler"].aws_iam_role.irsa[0]
+  from = aws_iam_role.this
+  to   = module.addon-irsa["cluster-autoscaler"].aws_iam_role.this
 }
 
 moved {
-  from = aws_iam_role_policy_attachment.this[0]
-  to   = module.addon-irsa["cluster-autoscaler"].aws_iam_role_policy_attachment.irsa[0]
+  from = aws_iam_role_policy_attachment.this
+  to   = module.addon-irsa["cluster-autoscaler"].aws_iam_role_policy_attachment.this
 }
