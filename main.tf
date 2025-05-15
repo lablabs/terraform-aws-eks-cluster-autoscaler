@@ -21,9 +21,9 @@ locals {
   addon_irsa = {
     (local.addon.name) = {
       irsa_policy_enabled         = local.irsa_policy_enabled
-      irsa_policy                 = (var.enabled && var.irsa_policy != null) ? var.irsa_policy : data.aws_iam_policy_document.this[0].json
+      irsa_policy                 = var.irsa_policy != null ? var.irsa_policy : try(data.aws_iam_policy_document.this[0].json, "")
       pod_identity_policy_enabled = local.pod_identity_policy_enabled
-      pod_identity_policy         = (var.enabled && var.pod_identity_policy != null) ? var.pod_identity_policy : data.aws_iam_policy_document.this[0].json
+      pod_identity_policy         = var.pod_identity_policy != null ? var.pod_identity_policy : try(data.aws_iam_policy_document.this[0].json, "")
     }
   }
 
