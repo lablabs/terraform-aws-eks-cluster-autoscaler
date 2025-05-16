@@ -1,7 +1,7 @@
 <!-- BEGIN_TF_DOCS -->
 # AWS EKS Cluster Autoscaler Addon Terraform module
 
-A Terraform module to deploy the cluster autoscaler addon on Amazon EKS cluster.
+A Terraform module to deploy the [cluster autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler) addon on Amazon EKS cluster.
 
 [![Terraform validate](https://github.com/lablabs/terraform-aws-eks-cluster-autoscaler-addon/actions/workflows/validate.yaml/badge.svg)](https://github.com/lablabs/terraform-aws-eks-cluster-autoscaler-addon/actions/workflows/validate.yaml)
 [![pre-commit](https://github.com/lablabs/terraform-aws-eks-cluster-autoscaler/actions/workflows/pre-commit.yaml/badge.svg)](https://github.com/lablabs/terraform-aws-eks-cluster-autoscaler/actions/workflows/pre-commit.yaml)
