@@ -1,0 +1,10 @@
+modules
+examples/basic/main.tf
+main.tf
+variables.tf
+README.md
+.secrets.baseline
+.github/workflows/renovate.yaml
+renovate.json
+addon-oidc.tf
+variables-addon-oidc.tf
