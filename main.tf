@@ -43,4 +43,7 @@ locals {
       clusterName = var.cluster_name
     }
   })
+
+  addon_depends_on = [
+  ]
 }
