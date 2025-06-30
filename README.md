@@ -42,7 +42,7 @@ See [basic example](examples/basic) for further information.
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.5.0 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 5 |
-| <a name="requirement_helm"></a> [helm](#requirement\_helm) | >= 2.6.0, < 3.0 |
+| <a name="requirement_helm"></a> [helm](#requirement\_helm) | ~> 2.6.0 |
 | <a name="requirement_kubernetes"></a> [kubernetes](#requirement\_kubernetes) | >= 2.20.0 |
 | <a name="requirement_utils"></a> [utils](#requirement\_utils) | >= 0.17.0 |
 
