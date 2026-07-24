@@ -37,7 +37,7 @@ locals {
         } : tomap({})
       }
     }
-    awsRegion = data.aws_region.current.id
+    awsRegion = data.aws_region.current.region
     autoDiscovery = {
       clusterName = var.cluster_name
     }
