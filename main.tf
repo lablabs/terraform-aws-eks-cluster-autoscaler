@@ -13,7 +13,7 @@ locals {
     name = "cluster-autoscaler"
 
     helm_chart_name    = "cluster-autoscaler"
-    helm_chart_version = "9.19.1"
+    helm_chart_version = "9.59.0"
     helm_repo_url      = "https://kubernetes.github.io/autoscaler"
   }
 
